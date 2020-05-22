@@ -9,7 +9,7 @@ binomial_tree_prices_x.add_node(
     pydot.Node("X_Y(1,H)", label="<X<SUB>Y</SUB>(1,H) = 8>")
 )
 binomial_tree_prices_x.add_node(
-    pydot.Node("X_Y(1,T)", label="<X<SUB>Y</SUB>(1,H) = 2>")
+    pydot.Node("X_Y(1,T)", label="<X<SUB>Y</SUB>(1,T) = 2>")
 )
 binomial_tree_prices_x.add_edge(pydot.Edge("X_Y(0)", "X_Y(1,H)",label = "1/3"))
 binomial_tree_prices_x.add_edge(pydot.Edge("X_Y(0)", "X_Y(1,T)",label = "2/3"))
@@ -39,7 +39,7 @@ binomial_tree_prices_v.add_node(
     pydot.Node("V_Y(1,H)", label="<V<SUB>Y</SUB>(1,H) = 1/3>")
 )
 binomial_tree_prices_v.add_node(
-    pydot.Node("V_Y(1,T)", label="<V<SUB>Y</SUB>(1,H) = 2/3>")
+    pydot.Node("V_Y(1,T)", label="<V<SUB>Y</SUB>(1,T) = 2/3>")
 )
 binomial_tree_prices_v.add_edge(pydot.Edge("V_Y(0)", "V_Y(1,H)",label = "1/3"))
 binomial_tree_prices_v.add_edge(pydot.Edge("V_Y(0)", "V_Y(1,T)",label = "2/3"))
