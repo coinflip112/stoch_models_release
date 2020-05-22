@@ -57,4 +57,4 @@ binomial_tree_prices_v.add_node(
 binomial_tree_prices_v.add_edge(pydot.Edge("V_Y(1,H)", "V_Y(2,HH)",label = "1/3"))
 binomial_tree_prices_v.add_edge(pydot.Edge("V_Y(1,H)", "V_Y(2,HT)",label = "2/3"))
 binomial_tree_prices_v.add_edge(pydot.Edge("V_Y(1,T)", "V_Y(2,HT)",label = "1/3"))
-binomial_tree_prices_v.add_edge(pydot.Edge("V_Y(1,T)", "V_Y(2,TT)",label = "1/3"))
+binomial_tree_prices_v.add_edge(pydot.Edge("V_Y(1,T)", "V_Y(2,TT)",label = "2/3"))
