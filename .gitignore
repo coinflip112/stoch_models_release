@@ -130,3 +130,6 @@ dmypy.json
 
 # VScode
 /.vscode
+
+# notebooks from other people
+temp_notebooks/
