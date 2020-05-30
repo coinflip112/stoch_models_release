@@ -33,10 +33,10 @@ class BrownianStockSimulator:
         return brownian_motion
 
     def _get_stock_price(self, init_stock_price):
-        log_returns = (
+        output = (
             self.sigma * self.brownian_motion - 0.5 * self.sigma ** 2 * self.time_grid
         )
-        return init_stock_price * np.exp(log_returns)
+        return init_stock_price * np.exp(output)
 
     def simulate(self, init_stock_price, random_seed=42):
         np.random.seed(random_seed)

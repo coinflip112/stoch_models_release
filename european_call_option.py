@@ -1,4 +1,6 @@
 import numpy as np
+
+np.seterr(all="ignore")
 from scipy.stats import norm
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
@@ -71,20 +73,22 @@ class EuropeanCallOption:
         a1 = 1 + self.interest * self.dt
         a2 = 1 + (self.interest - self.delta) * self.dt
         initial_price = self.price[0]
-        portfolio = np.empty(self.sampling_points + 1, dtype=float)
-        portfolio[0] = initial_price
-        for i in range(self.sampling_points):
-            portfolio[i + 1] = (
-                portfolio[i] * a1
-                + self.hedge[i] * (stock_price[i + 1] - stock_price[i]) * a2
-            )
+        
+        if self.delta == self.interest == 0:
+            diff = np.diff(stock_price, n=1)
+            diff_and_hedge_cumsum = np.cumsum(diff * self.hedge[:-1])
+            diff_and_hedge_cumsum = np.append(0, diff_and_hedge_cumsum)
+            portfolio = initial_price + diff_and_hedge_cumsum
+        else:
+            portfolio = np.empty(self.sampling_points + 1, dtype=float)
+            portfolio[0] = initial_price
+            for i in range(self.sampling_points):
+                portfolio[i + 1] = (
+                    portfolio[i] * a1
+                    + self.hedge[i] * (stock_price[i + 1] - stock_price[i]) * a2
+                )
 
-        # diff = np.diff(stock_price, n=1)
-        # power = np.power(a1, list(range(stock_price.shape[0])))
-        # diff_and_hedge_cumsum = np.cumsum(diff * self.hedge[:-1] * power[:-1] * a2)
-        # diff_and_hedge_cumsum = np.append(0, diff_and_hedge_cumsum)
-        # portfolio_1 = initial_price * power + diff_and_hedge_cumsum
-        return portfolio  # , portfolio_1
+        return portfolio
 
     def simulate(self, stock_price, random_seed=42):
         np.random.seed(random_seed)
@@ -94,9 +98,6 @@ class EuropeanCallOption:
         self.hedge = self._get_hedge(
             stock_price=stock_price, current_time=self.time_grid
         )
-        # self.portfolio, self.portfolio_1 = self._get_portfolio(
-        #     stock_price=stock_price, current_time=self.time_grid
-        # )
         self.portfolio = self._get_portfolio(
             stock_price=stock_price, current_time=self.time_grid
         )
@@ -114,11 +115,6 @@ class EuropeanCallOption:
             row=1,
             col=1,
         ),
-        # fig.append_trace(
-        #     go.Scatter(x=self.time_grid, y=self.portfolio_1, name="Portfolio_1"),
-        #     row=1,
-        #     col=1,
-        # ),
         fig.update_layout(
             height=self.plot_height,
             width=self.plot_width,
